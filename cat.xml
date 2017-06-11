@@ -1,0 +1,29 @@
+<tool id="cat" name="Concatenate datasets (in containers)">
+    <description>tail-to-head</description>
+    <requirements>
+        <requirement type="package" version="1.4.1">samtools</requirement>
+    </requirements>
+    <command detect_errors="aggressive"><![CDATA[
+      echo "Galaxy slots passed through contain as \$GALAXY_SLOTS" &&
+      cat $input1
+      #for $q in $queries
+            '${q.input2}'
+      #end for
+      > $out_file1 &&
+      echo "Work dir output" > working_file &&
+      samtools --version &&
+      which samtools
+     ]]></command>
+    <inputs>
+        <param name="input1" type="data" label="Concatenate Dataset"/>
+        <repeat name="queries" title="Dataset">
+            <param name="input2" type="data" label="Select" />
+        </repeat>
+    </inputs>
+    <outputs>
+        <data name="out_file1" format="input" metadata_source="input1"/>
+        <data name="out_file2" format="txt" from_work_dir="working_file" />
+    </outputs>
+    <help>
+    </help>
+</tool>
